@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Request</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      div {
+        text-align: center;
+        height: 50px;
+        width: 600px;
+        padding: 20px;
+        margin: auto;
+        color: darkblue;
+        margin-top: 10px;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button onclick="showPokemon()">Add Pokemons</button>
+    <div id="array-elements"></div>
+
+    <script>
+      const arrayOfObjectsDiv = document.getElementById("array-elements");
+      let pokemonInfo = [];
+
+      async function showPokemon() {
+        let urlApi = "https://pokeapi.co/api/v2/pokemon/";
+        const response = await fetch(urlApi);
+        const data = await response.json();
+        pokemonInfo = data.results;
+
+        console.log(pokemonInfo);
+
+        pokemonInfo.forEach(function (pokemon) {
+          const objectDiv = document.createElement("div");
+          for (const key in pokemon) {
+            if (pokemon.hasOwnProperty(key)) {
+              const propertyText = document.createTextNode(
+                `${key}: ${pokemon[key]}`
+              );
+              objectDiv.appendChild(propertyText);
+              objectDiv.appendChild(document.createElement("br"));
+            }
+          }
+          objectDiv.appendChild(document.createElement("hr"));
+          arrayOfObjectsDiv.appendChild(objectDiv);
+        });
+      }
+    </script>
+  </body>
+</html>
